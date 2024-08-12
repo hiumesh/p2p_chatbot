@@ -3,32 +3,90 @@ version: "3.1"
 intents:
   - greet
   - goodbye
+  - inform
   - affirm
   - deny
   - mood_great
   - mood_unhappy
   - bot_challenge
+  - approve
+  - approval_form
+  - stop
+
+entities:
+  - module
+  - ref_number
 
 responses:
   utter_greet:
-  - text: "Hey! How are you?"
+    - text: "Hey! How are you?"
 
   utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
+    - text: "Here is something to cheer you up:"
+      image: "https://i.imgur.com/nGF1K8f.jpg"
 
   utter_did_that_help:
-  - text: "Did that help you?"
+    - text: "Did that help you?"
 
   utter_happy:
-  - text: "Great, carry on!"
+    - text: "Great, carry on!"
 
   utter_goodbye:
-  - text: "Bye"
+    - text: "Bye"
 
   utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+    - text: "I am a bot, powered by Rasa."
+
+  utter_ask_continue:
+    - text: Are you sure you want to stop the form?
+
+  utter_submit:
+    - text: "Request Processed Successfully"
+
+  utter_approval_slots:
+    - text: Approval Request to module {module} with reference {ref_number}.
+
+  utter_ask_module:
+    - text: Enter the module in which you want to perform approval
+
+  utter_ask_ref_number:
+    - text: Enter the Ref number for that entry
+
+  utter_restart:
+    - text: Restarting the Session
+
+  utter_console:
+    - text: Console for test
 
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
+
+slots:
+  module:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: module
+        conditions:
+          - active_loop: approval_form
+
+  ref_number:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: ref_number
+        conditions:
+          - active_loop: approval_form
+
+forms:
+  approval_form:
+    required_slots:
+      - module
+      - ref_number
+
+actions:
+  - validate_approval_form
+  - action-submit-approval-form

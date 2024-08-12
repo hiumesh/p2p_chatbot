@@ -1,1 +1,27 @@
 version: "3.1"
+
+rules:
+  - rule: Activate Approval Form
+    steps:
+      - intent: approve
+      - action: approval_form
+      - active_loop: approval_form
+
+  - rule: Submit Approval Form
+    condition:
+      - active_loop: approval_form
+    steps:
+      - action: approval_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action-submit-approval-form
+
+  - rule: Interruption in Approval Form
+    condition:
+      - active_loop: approval_form
+    steps:
+      - intent: bot_challenge
+      - action: utter_iamabot
+      - action: approval_form
+      - active_loop: approval_form

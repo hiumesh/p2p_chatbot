@@ -1,1 +1,36 @@
 version: "3.1"
+
+stories:
+  - story: User interrupts the form and doesn't want to continue
+    steps:
+      - intent: approve
+      - action: approval_form
+      - active_loop: approval_form
+      - intent: stop
+      - action: utter_ask_continue
+      - or:
+          - intent: stop
+          - intent: affirm
+      - action: action_deactivate_loop
+      - active_loop: null
+
+  - story: User interrupts the form and doesn't want to continue to yes
+    steps:
+      - intent: approve
+      - action: approval_form
+      - active_loop: approval_form
+      - intent: stop
+      - action: utter_ask_continue
+      - intent: deny
+      - action: approval_form
+      - active_loop: approval_form
+
+  - story: Approval Story 1
+    steps:
+      - intent: approve
+      - action: approval_form
+      - active_loop: approval_form
+      - active_loop: null
+      - action: action-submit-approval-form
+      - intent: goodbye
+      - action: utter_goodbye

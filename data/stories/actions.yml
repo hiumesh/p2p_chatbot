@@ -34,3 +34,5 @@ stories:
       - action: action-submit-approval-form
       - intent: goodbye
       - action: utter_goodbye
+
+  # - story: User interrupts with random intent

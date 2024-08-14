@@ -14,8 +14,9 @@ intents:
   - stop
 
 entities:
-  - module
+  - module_name
   - ref_number
+  - comments
 
 responses:
   utter_greet:
@@ -44,10 +45,16 @@ responses:
     - text: "Request Processed Successfully"
 
   utter_approval_slots:
-    - text: Approval Request to module {module} with reference {ref_number}.
+    - text: Approval Request to module {module_name} with reference {ref_number}.
 
   utter_ask_module:
     - text: Enter the module in which you want to perform approval
+
+  utter_ask_module_name:
+    - text: Enter the module in which you want to perform approval
+
+  utter_ask_comments:
+    - text: Enter Comments...
 
   utter_ask_ref_number:
     - text: Enter the Ref number for that entry
@@ -58,19 +65,37 @@ responses:
   utter_console:
     - text: Console for test
 
+  utter_default:
+    - text: Sorry I didn't get that. Can you rephrase?
+
+  utter_please_rephrase:
+    - text: I'm sorry, I didn't quite understand that. Could you rephrase?
+
+  utter_unexpected_form_exit:
+    - text: Unexpected intent detected so exiting the form
+
+  utter_null_fallback:
+    - text: null_fallback
+
+  utter_action_unlikely_intent:
+    - text: action_unlikely_intent
+
+  utter_action_default_fallback:
+    - text: action_default_fallback
+
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
 
 slots:
-  module:
+  module_name:
     type: text
     influence_conversation: true
     mappings:
       - type: from_entity
         entity: module
-        conditions:
-          - active_loop: approval_form
+        # conditions:
+        #   - active_loop: approval_form
 
   ref_number:
     type: text
@@ -78,15 +103,36 @@ slots:
     mappings:
       - type: from_entity
         entity: ref_number
-        conditions:
-          - active_loop: approval_form
+        # conditions:
+        #   - active_loop: approval_form
+
+  comments:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: ref_number
+        # conditions:
+        #   - active_loop: approval_form
 
 forms:
   approval_form:
     required_slots:
-      - module
+      - module_name
       - ref_number
+  reject_form:
+    required_slots:
+      - module_name
+      - ref_number
+      - comments
+  disapproval_form:
+    required_slots:
+      - module_name
+      - ref_number
+      - comments
 
 actions:
   - validate_approval_form
   - action-submit-approval-form
+  - action-submit-reject-form
+  - action-submit-disapproval-form

@@ -20,19 +20,50 @@ nlu:
 
   - intent: approve
     examples: |
-      - i want to approve [pr]{"entity": "module", "value": "purchase requisition"} with number [87454859](ref_number)
-      - can you approve [pr]{"entity": "module", "value": "purchase requisition"} with reference number [87454859](ref_number)
-      - approve [pr]{"entity": "module", "value": "purchase requisition"} with reference number [87454859](ref_number)
-      - approve [purchase request]{"entity": "module", "value": "purchase requisition"}
-      - approve [po]{"entity": "module", "value": "purchase order"} with number (42334244)(ref_number)
-      - approve [non purchase order invoice]{"entity": "module", "value": "non po invoice"}
+      - i want to approve [pr]{"entity": "module_name", "value": "purchase requisition"} with number [87454859](ref_number)
+      - can you approve [pr]{"entity": "module_name", "value": "purchase requisition"} with reference number [87454859](ref_number)
+      - approve [pr]{"entity": "module_name", "value": "purchase requisition"} with reference number [87454859](ref_number)
+      - approve [purchase request]{"entity": "module_name", "value": "purchase requisition"}
+      - approve [po]{"entity": "module_name", "value": "purchase order"} with number (42334244)(ref_number)
+      - approve [non purchase order invoice]{"entity": "module_name", "value": "non po invoice"}
       - approve [87457854444](ref_number)
       - approve
 
+  - intent: disapprove
+    examples: |
+      - i want to disapprove [pr]{"entity": "module_name", "value": "purchase requisition"} with number [87454859](ref_number)
+      - can you disapprove [pr]{"entity": "module_name", "value": "purchase requisition"} with reference number [87454859](ref_number)
+      - disapprove [pr]{"entity": "module_name", "value": "purchase requisition"} with reference number [87454859](ref_number)
+      - disapprove [purchase request]{"entity": "module_name", "value": "purchase requisition"}
+      - disapprove [po]{"entity": "module_name", "value": "purchase order"} with number (42334244)(ref_number)
+      - disapprove [non purchase order invoice]{"entity": "module_name", "value": "non po invoice"}
+      - disapprove [87457854444](ref_number)
+      - disapprove
+
+  - intent: reject
+    examples: |
+      - i want to reject [pr]{"entity": "module_name", "value": "purchase requisition"} with number [87454859](ref_number)
+      - can you reject [pr]{"entity": "module_name", "value": "purchase requisition"} with reference number [87454859](ref_number)
+      - reject [pr]{"entity": "module_name", "value": "purchase requisition"} with reference number [87454859](ref_number)
+      - reject [purchase request]{"entity": "module_name", "value": "purchase requisition"}
+      - reject [po]{"entity": "module_name", "value": "purchase order"} with number (42334244)(ref_number)
+      - reject [non purchase order invoice]{"entity": "module_name", "value": "non po invoice"}
+      - reject [87457854444](ref_number)
+      - reject
+
   - intent: inform
     examples: |
-      - [pr]{"entity": "module", "value": "purchase requisition"}
-      - [purchase request]{"entity": "module", "value": "purchase requisition"}
-      - [po]{"entity": "module", "value": "purchase order"}
-      - [non purchase order invoice]{"entity": "module", "value": "non po invoice"}
+      - [pr]{"entity": "module_name", "value": "purchase requisition"}
+      - [purchase request]{"entity": "module_name", "value": "purchase requisition"}
+      - [po]{"entity": "module_name", "value": "purchase order"}
+      - [non purchase order invoice]{"entity": "module_name", "value": "non po invoice"}
       - [87457834859](ref_number)
+
+  - intent: inform_comment
+    examples: |
+      - I want to say that...
+      - My comment is...
+      - Here is my feedback...
+      - I think...
+      - The issue is...
+      - The service was...

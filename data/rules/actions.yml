@@ -1,7 +1,9 @@
 version: "3.1"
 
 rules:
-  - rule: Activate Approval Form
+  - rule: Activate Approval Form when no other form is active
+    condition:
+      - active_loop: null
     steps:
       - intent: approve
       - action: approval_form
@@ -17,11 +19,67 @@ rules:
           - requested_slot: null
       - action: action-submit-approval-form
 
-  - rule: Interruption in Approval Form
+  - rule: Approval Form Exit on action_unlikely_intent
     condition:
       - active_loop: approval_form
     steps:
-      - intent: bot_challenge
-      - action: utter_iamabot
-      - action: approval_form
+      - intent: action_unlikely_intent
+      - action: action_deactivate_loop
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_unlikely_intent
+
+  - rule: Approval Form Exit on action_default_fallback
+    condition:
       - active_loop: approval_form
+    steps:
+      - intent: action_default_fallback
+      - action: action_deactivate_loop
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_default_fallback
+
+  # - rule: Interruption in Approval Form
+  #   condition:
+  #     - active_loop: approval_form
+  #   steps:
+  #     - intent: bot_challenge
+  #     - action: utter_iamabot
+  #     - action: approval_form
+  #     - active_loop: approval_form
+
+  - rule: Activate Disapproval Form when no other form is active
+    condition:
+      - active_loop: null
+    steps:
+      - intent: disapprove
+      - action: disapproval_form
+      - active_loop: disapproval_form
+
+  - rule: Submit Disapproval Form
+    condition:
+      - active_loop: disapproval_form
+    steps:
+      - action: disapproval_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action-submit-disapproval-form
+
+  - rule: Activate Reject Form when no other form is active
+    steps:
+      - intent: reject
+      - action: reject_form
+      - active_loop: reject_form
+
+  - rule: Submit Disapproval Form
+    condition:
+      - active_loop: reject_form
+    steps:
+      - action: reject_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action-submit-reject-form
